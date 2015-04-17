@@ -18,6 +18,8 @@
   "homepage": "https://github.com/hhelwich/foo",
   "devDependencies": {
     "babel": "^5.1.10",
+    "babelify": "^6.0.2",
+    "browserify": "^9.0.8",
     "del": "^1.1.1",
     "gulp": "^3.8.11",
     "gulp-babel": "^5.1.0",
@@ -27,6 +29,7 @@
     "gulp-jscs-stylish": "^1.1.0",
     "gulp-jshint": "^1.10.0",
     "gulp-sourcemaps": "^1.5.2",
-    "jshint-stylish": "^1.0.1"
+    "jshint-stylish": "^1.0.1",
+    "mkdirp": "^0.5.0"
   }
 }

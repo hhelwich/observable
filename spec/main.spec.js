@@ -1,9 +1,9 @@
-import main from '../src/main';
+import another from './another.spec';
 
 describe('main test', () => {
 
   it('should import correctly', () => {
-    expect(main).toBe('bar');
+    expect(myApp).toEqual({ foo: 42 });
   });
 
 });

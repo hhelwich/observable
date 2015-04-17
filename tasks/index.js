@@ -1,5 +1,5 @@
 import './default';
 import './lint';
 import './clean';
-import './transpile';
+import './bundle';
 import './bower';
