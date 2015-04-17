@@ -1,1 +1,2 @@
-require('./default');
+import './default';
+import './lint';
