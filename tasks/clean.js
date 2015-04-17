@@ -1,5 +1,5 @@
-let gulp = require('gulp');
-let del = require('del');
+import gulp from 'gulp';
+import del from 'del';
 
 gulp.task('clean', (cb) => {
   del(['dist'], cb);
