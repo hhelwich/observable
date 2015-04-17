@@ -17,3 +17,5 @@ let createLintTask = (dir) => {
 };
 
 ['tasks', 'src', 'spec'].forEach(createLintTask);
+
+gulp.task('lint', ['lint-tasks', 'lint-src', 'lint-spec']);
