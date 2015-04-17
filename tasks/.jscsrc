@@ -1,0 +1,5 @@
+{
+  "esnext": true,
+  "preset": "airbnb",
+  "disallowEmptyBlocks": null
+}

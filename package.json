@@ -20,6 +20,9 @@
     "babel": "^5.1.10",
     "gulp": "^3.8.11",
     "gulp-babel": "^5.1.0",
-    "gulp-jshint": "^1.10.0"
+    "gulp-jscs": "^1.5.2",
+    "gulp-jscs-stylish": "^1.1.0",
+    "gulp-jshint": "^1.10.0",
+    "jshint-stylish": "^1.0.1"
   }
 }
