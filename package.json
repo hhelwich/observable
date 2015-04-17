@@ -15,5 +15,10 @@
   "bugs": {
     "url": "https://github.com/hhelwich/foo/issues"
   },
-  "homepage": "https://github.com/hhelwich/foo"
+  "homepage": "https://github.com/hhelwich/foo",
+  "devDependencies": {
+    "babel": "^5.1.10",
+    "gulp": "^3.8.11",
+    "gulp-babel": "^5.1.0"
+  }
 }
