@@ -10,6 +10,10 @@ gulp.task('copy-runner', () => {
   return gulp.src('spec/index.html').pipe(gulp.dest('build'));
 });
 
+gulp.task('copy-jasmine', () => {
+  return gulp.src('bower_components/jasmine/lib/jasmine-core/**/*').pipe(gulp.dest('build/jasmine'));
+});
+
 let createBundleTask = (dir) => {
   gulp.task(`bundle-${dir}`, (cb) => {
     mkdirp('./build', (err) => {
@@ -32,4 +36,4 @@ let createBundleTask = (dir) => {
 
 ['src', 'spec'].forEach(createBundleTask);
 
-gulp.task('bundle', ['copy-runner', 'bundle-src', 'bundle-spec']);
+gulp.task('bundle', ['copy-runner', 'copy-jasmine', 'bundle-src', 'bundle-spec']);

@@ -1,9 +1,5 @@
 import text from './another';
 
-console.log(text);
-
 export default 'bar';
 
-if (typeof window !== 'undefined') {
-  window.myApp = { foo: 42 } ;
-}
+(() => { return typeof window !== 'undefined' ? window : global; })().myApp = { foo: 42 };

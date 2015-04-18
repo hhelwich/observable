@@ -30,8 +30,8 @@ gulp.task('test', (cb) => {
   });
 });
 
-gulp.task('watch', () => {
-  runSequence('clean', 'bower', 'test', () => {
+gulp.task('dev', () => {
+  runSequence('clean-build', 'test', () => {
     browserSync({ server: './build' });
     gulp.watch(['src/**/*.js'], ['update-src']);
     gulp.watch(['src/.jscsrc', 'src/.jshintrc'], { dot: true }, ['lint-src']);
