@@ -24,7 +24,7 @@ let createBundleTask = (dir) => {
           .on('error', (err) => {
             console.log('Error : ' + err.message);
             cb();
-          }).pipe(fs.createWriteStream(`build/bundle-${dir}.js`).on('close', cb));
+          }).pipe(fs.createWriteStream(`build/bundle${dir === 'spec' ? '-spec' : ''}.js`).on('close', cb));
       }
     });
   });

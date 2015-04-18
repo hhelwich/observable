@@ -4,3 +4,4 @@ import './clean';
 import './bundle';
 import './bower';
 import './watch';
+import './minify';
