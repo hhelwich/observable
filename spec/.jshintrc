@@ -1,3 +1,29 @@
 {
+  "curly": true,
+  "eqeqeq": true,
+  "forin": true,
+  "freeze": true,
+  "futurehostile": true,
+  "latedef": true,
+  "noarg": true,
+  "nocomma": true,
+  "nonbsp": true,
+  "nonew": true,
+  "singleGroups": true,
+  "undef": true,
+  "globals": {
+    "console": false,
+    "require": false,
+    "window": false,
+    "global": false,
+    "__dirname": false,
+    "setTimeout": false,
+    "TEST": false,
+    "DEBUG": false,
+    "describe": false,
+    "it": false,
+    "expect": false
+  },
+  "eqnull": true,
   "esnext": true
 }
