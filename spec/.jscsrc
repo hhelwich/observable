@@ -1,5 +1,7 @@
 {
   "esnext": true,
   "preset": "airbnb",
-  "disallowEmptyBlocks": null
+  "disallowEmptyBlocks": null,
+  "requirePaddingNewLinesAfterBlocks": null,
+  "requirePaddingNewLinesBeforeLineComments": null
 }

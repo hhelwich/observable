@@ -1,16 +1,12 @@
-
-
-var appendStrs, equalSize, fillLeft, hasData, initData, makeResultString, maxLength, maybeStrToNumber, strContains, verifyStrValue,
-  __slice = [].slice;
+const  __slice = [].slice;
 
 // Get the maximum string length for the given array of strings
 // :: [string] -> number
-maxLength = function(strs) {
-  var max, str, _i, _len;
-  max = 0;
-  _len = strs.length;
-  for (_i = 0; _i < _len; _i++) {
-    str = strs[_i];
+const maxLength = function(strs) {
+  let max = 0;
+  const _len = strs.length;
+  for (let _i = 0; _i < _len; _i++) {
+    let str = strs[_i];
     max = Math.max(max, str.length);
   }
   return max;
@@ -18,19 +14,18 @@ maxLength = function(strs) {
 
 // Extend the string to the given size by adding spaces to the left.
 // (string, number) -> string
-fillLeft = function(str, size) {
-  return new Array(size - str.length + 1).join(" ") + str;
+const fillLeft = function(str, size) {
+  return new Array(size - str.length + 1).join(' ') + str;
 };
 
 // Make all strings in the given array of the same size by adding spaces on the left.
 // :: [string] -> [string]
-equalSize = function(strs) {
-  var length, str, _i, _len, _results;
-  length = maxLength(strs);
-  _results = [];
-  _len = strs.length;
-  for (_i = 0; _i < _len; _i++) {
-    str = strs[_i];
+const equalSize = function(strs) {
+  const length = maxLength(strs);
+  const _results = [];
+  const _len = strs.length;
+  for (let _i = 0; _i < _len; _i++) {
+    let str = strs[_i];
     _results.push(fillLeft(str, length));
   }
   return _results;
@@ -38,11 +33,10 @@ equalSize = function(strs) {
 
 // Returns true if one of the arrays in the given array is not empty.
 // [[*]] -> boolean
-hasData = function(arrays) {
-  var array, _i, _len;
-  _len = arrays.length;
-  for (_i = 0; _i < _len; _i++) {
-    array = arrays[_i];
+const hasData = function(arrays) {
+  const _len = arrays.length;
+  for (let _i = 0; _i < _len; _i++) {
+    let array = arrays[_i];
     if (array.length > 0) {
       return true;
     }
@@ -52,24 +46,22 @@ hasData = function(arrays) {
 
 // Returns array which contains the given number of empty arrays.
 // :: number -> [[]]
-initData = function(n) {
-  var i, _i, _results;
-  _results = [];
-  for (i = _i = 0; _i < n; i = _i += 1) {
-    _results.push([]);
+const initData = function(n) {
+  const results = [];
+  for (let i = 0; i < n; i += 1) {
+    results.push([]);
   }
-  return _results;
+  return results;
 };
 
 // Appends the strings of the second argument to  the string lists of the first argument. Both arguments are assumed to
 // have the same length.
 // :: ([[string]], [string]) -> [[string]]
-appendStrs = function(strs0, strs1) {
-  var i, str0, _i, _len, _results;
-  _results = [];
-  _len = strs0.length;
-  for (i = _i = 0; _i < _len; i = ++_i) {
-    str0 = strs0[i];
+const appendStrs = function(strs0, strs1) {
+  const _results = [];
+  const _len = strs0.length;
+  for (let i = 0; i < _len; i += 1) {
+    let str0 = strs0[i];
     _results.push(str0.concat(strs1[i]));
   }
   return _results;
@@ -77,29 +69,27 @@ appendStrs = function(strs0, strs1) {
 
 // Returns true if the given substring is contained in the given string.
 // :: (string, string) -> boolean
-strContains = function(str, sub) {
+const strContains = function(str, sub) {
   return str.indexOf(sub) !== -1;
 };
 
 // Throws if the given string is a problematic value to use together with this unit test utility function.
 // If no error is thrown the input value is returned.
 // :: string -> string
-verifyStrValue = function(val) {
-  var sub, _i, _len, _ref;
-  _ref = " !,[]".split("");
-  _len = _ref.length;
-  for (_i = 0; _i < _len; _i++) {
-    sub = _ref[_i];
+const verifyStrValue = function(val) {
+  const _ref = ' !,[]'.split('');
+  const _len = _ref.length;
+  for (let _i = 0; _i < _len; _i++) {
+    let sub = _ref[_i];
     if (strContains(val, sub)) {
-      throw Error("invalid value " + val);
+      throw Error('invalid value ' + val);
     }
   }
   return val;
 };
 
-maybeStrToNumber = function(str) {
-  var n;
-  n = parseInt(str, 10);
+const maybeStrToNumber = function(str) {
+  const n = parseInt(str, 10);
   if (isNaN(n)) {
     return str;
   } else {
@@ -109,18 +99,17 @@ maybeStrToNumber = function(str) {
 
 // Create one string of all results.
 // :: [[string]] -> string
-makeResultString = function(results) {
-  var result;
+const makeResultString = function(results) {
+  let result;
   return (function() {
-    var _i, _len, _results;
-    _results = [];
-    _len = results.length;
-    for (_i = 0; _i < _len; _i++) {
+    const _results = [];
+    const _len = results.length;
+    for (let _i = 0; _i < _len; _i++) {
       result = results[_i];
-      _results.push((result.join(" ")).trim());
+      _results.push((result.join(' ')).trim());
     }
     return _results;
-  }()).join("");
+  }()).join('');
 };
 
 let util = {
@@ -136,7 +125,7 @@ let util = {
       var _j, _results;
       _results = [];
       for (i = _j = 0; 0 <= n ? _j < n : _j > n; i = 0 <= n ? ++_j : --_j) {
-        _results.push(["["]);
+        _results.push(['[']);
       }
       return _results;
     }();
@@ -150,12 +139,11 @@ let util = {
       if (hasData(resultsNow)) {
         // Join event strings for each observable and make all strings the same length. Append to result list
         results = appendStrs(results, equalSize(function() {
-          var _j, _len, _results;
-          _results = [];
-          _len = resultsNow.length;
-          for (_j = 0; _j < _len; _j++) {
+          const _results = [];
+          const _len = resultsNow.length;
+          for (let _j = 0; _j < _len; _j++) {
             result = resultsNow[_j];
-            _results.push(result.join(","));
+            _results.push(result.join(','));
           }
           return _results;
         }()));
@@ -165,11 +153,11 @@ let util = {
     O.onNext(next);
     _fn = function(i) {
       observable.forEach(function(value) { // On value
-        resultsNow[i].push(verifyStrValue("" + value));
+        resultsNow[i].push(verifyStrValue('' + value));
       }, function(error) { // On error
-        resultsNow[i].push("!" + verifyStrValue("" + error));
+        resultsNow[i].push('!' + verifyStrValue('' + error));
       }, function() { // On end
-        resultsNow[i].push("]");
+        resultsNow[i].push(']');
         activeCount -= 1;
         if (activeCount === 0) {
           next(); // Make sure all values/errors are collected in the result list
@@ -188,17 +176,16 @@ let util = {
   // :: [*] -> Observable
   Observable: function(str) {
     var events;
-    events = str.split(" ");
+    events = str.split(' ');
     return O(function(push, next) {
       var nextGroup;
       nextGroup = function() {
-        var value, _i, _len, _ref;
         if (events.length > 0) {
-          _ref = events.shift().split(",");
-          _len = _ref.length;
-          for (_i = 0; _i < _len; _i++) {
-            value = _ref[_i];
-            if (value.indexOf("!") === 0) {
+          const _ref = events.shift().split(',');
+          const _len = _ref.length;
+          for (let _i = 0; _i < _len; _i++) {
+            let value = _ref[_i];
+            if (value.indexOf('!') === 0) {
               foo();
               throw value.substring(1);
             } else {

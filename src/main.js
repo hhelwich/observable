@@ -40,7 +40,7 @@ let async = (f) => {
 // Returns `true` if the given value is a function.
 // :: * -> boolean
 let isFunc = (f) => {
-  return typeof f === "function";
+  return typeof f === 'function';
 };
 
 // Returns a function. A function input is returned directly, Other values will result in a function that does nothing.
@@ -371,7 +371,7 @@ let obsProto = Obs.prototype = {
     }, (e) => {
       error(prefix, e);
     }, () => {
-      log(prefix, "<end>");
+      log(prefix, '<end>');
     });
   },
   forEach: function(onValue, onError, onEnd) {
@@ -442,7 +442,6 @@ export const _private = {
 };
 
 export default Observable;
-
 
 (() => { return typeof window !== 'undefined' ? window : global; })().O = Observable;
 (() => { return typeof window !== 'undefined' ? window : global; })()._private = _private;

@@ -20,9 +20,14 @@
     "setTimeout": false,
     "TEST": false,
     "DEBUG": false,
+    "jasmine": false,
+    "beforeEach": false,
     "describe": false,
     "it": false,
-    "expect": false
+    "xit": false,
+    "expect": false,
+    "O": false,
+    "_private": false
   },
   "eqnull": true,
   "esnext": true
