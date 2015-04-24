@@ -1,7 +1,3 @@
-import util from './util';
-import customMatchers from './matcher';
-
-const { Observable, async, counter, dataOf } = util;
 const _ = _private;
 
 describe('_curry', () => {
@@ -21,6 +17,8 @@ describe('_curry', () => {
 
   it('passes arguments if more than expected', () => {
     const f = _.curry(function(a, b) {
+      expect(a).toBe(1);
+      expect(b).toBe(2);
       expect(_.toArray(arguments)).toEqual([1, 2, 3]);
     });
     f(1)(2, 3);

@@ -1,7 +1,7 @@
 import util from './util';
 import customMatchers from './matcher';
 
-const { Observable, async, counter, dataOf } = util;
+const { async, counter, dataOf } = util;
 
 describe('O', () => {
 
@@ -93,7 +93,7 @@ describe('O', () => {
 
     it('registers on first listener', done => {
       const order = counter();
-      const obs = O(function(push, next) {
+      const obs = O(function(push) {
         expect(order()).toBe(0); // Constructor function is called synchronously
         // Return register function
         return () => { // Register function

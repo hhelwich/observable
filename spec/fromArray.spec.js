@@ -1,7 +1,7 @@
 import util from './util';
 import customMatchers from './matcher';
 
-const { Observable, async, counter, dataOf } = util;
+const { dataOf } = util;
 
 describe('O.fromArray', () => {
 

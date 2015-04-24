@@ -1,8 +1,8 @@
 export default {
   // Passes if the given value is instance of the expected constructor.
-  toBeInstanceOf: function(util, customEqualityTesters) {
+  toBeInstanceOf() {
     return {
-      compare: function(actual, expected) {
+      compare(actual, expected) {
         return {
           pass: actual instanceof expected
         };

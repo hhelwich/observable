@@ -1,7 +1,3 @@
-import util from './util';
-import customMatchers from './matcher';
-
-const { Observable, async, counter, dataOf } = util;
 const _ = _private;
 
 describe('_appendArray', () => {
