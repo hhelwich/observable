@@ -11,6 +11,7 @@
   "nonew": true,
   "singleGroups": true,
   "undef": true,
+  "unused": true,
   "globals": {
     "console": false,
     "require": false,

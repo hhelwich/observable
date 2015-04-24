@@ -3,5 +3,6 @@
   "preset": "airbnb",
   "disallowEmptyBlocks": null,
   "requirePaddingNewLinesAfterBlocks": null,
-  "requirePaddingNewLinesBeforeLineComments": null
+  "requirePaddingNewLinesBeforeLineComments": null,
+  "requireLeftStickedOperators", null
 }
