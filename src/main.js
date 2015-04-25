@@ -398,7 +398,7 @@ Observable.prototype = obsProto; // For instanceof
 // Will be called at the start of each queue message created by this type
 // :: (->) ->
 Observable.onNext = (callback) => {
-  onNext = toFunc(callback);
+  onNext = callback;
 };
 
 // Returns an observable which emits all elements of the given array.

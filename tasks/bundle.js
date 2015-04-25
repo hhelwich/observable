@@ -11,7 +11,11 @@ gulp.task('copy-runner', () => {
 });
 
 gulp.task('copy-jasmine', () => {
-  return gulp.src('bower_components/jasmine/lib/jasmine-core/**/*').pipe(gulp.dest('build/jasmine'));
+  return gulp.src('bower_components/jasmine/lib/jasmine-core/**/*').pipe(gulp.dest('build/lib/jasmine'));
+});
+
+gulp.task('copy-ramda', () => {
+  return gulp.src('bower_components/ramda/dist/ramda.js').pipe(gulp.dest('build/lib'));
 });
 
 let createBundleTask = (dir) => {
@@ -36,4 +40,4 @@ let createBundleTask = (dir) => {
 
 ['src', 'spec'].forEach(createBundleTask);
 
-gulp.task('bundle', ['copy-runner', 'copy-jasmine', 'bundle-src', 'bundle-spec']);
+gulp.task('bundle', ['copy-runner', 'copy-jasmine', 'copy-ramda', 'bundle-src', 'bundle-spec']);

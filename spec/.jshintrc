@@ -19,7 +19,7 @@
     "window": false,
     "global": false,
     "__dirname": false,
-    "setTimeout": false,
+    "setTimeout": true,
     "TEST": false,
     "DEBUG": false,
     "jasmine": false,
@@ -28,6 +28,7 @@
     "it": false,
     "xit": false,
     "expect": false,
+    "R": false,
     "O": false,
     "_private": false
   },
