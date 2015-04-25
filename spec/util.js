@@ -14,11 +14,11 @@ const equalSize = strs => strs.map(str => fillLeft(str, maxLength(strs)));
 
 // Returns true if one of the arrays in the given array is not empty.
 // [[*]] -> boolean
-const hasData = arrays => arrays.map(array => array.length).filter(length => length > 0).length > 0;
+const hasoutput = arrays => arrays.map(array => array.length).filter(length => length > 0).length > 0;
 
 // Returns array which contains the given number of empty arrays.
 // :: number -> [[]]
-const initData = n => {
+const initoutput = n => {
   let results = [];
   for (let i = 0; i < n; i += 1) {
     results.push([]);
@@ -78,7 +78,7 @@ const util = {
   // Collect all outputs of the given observables until all are ended and call the given callback with the result
   // converted to string for better readability.
   // :: (Observable<T>..., (string ->)) ->
-  dataOf() {
+  observe() {
     const args = slice(arguments);
     const observables = R.slice(0, args.length - 1, args);
     const callback = args[args.length - 1];
@@ -87,14 +87,14 @@ const util = {
     let results = observables.map(() => ['[']);
     // List of all values/errors in the order of the occurrence. Same index of the lists imply occurrence in the same
     // stack. Stacks with no error/value will be dropped in the lists.
-    let resultsNow = initData(n); // :: [[string]]
+    let resultsNow = initoutput(n); // :: [[string]]
     // Number of the given observables which are not ended
     let activeCount = n;
     const next = () => { // To be called at the start of a new stack
-      if (hasData(resultsNow)) {
+      if (hasoutput(resultsNow)) {
         // Join event strings for each observable and make all strings the same length. Append to result list
         results = appendStrs(results, equalSize(resultsNow.map(result => result.join(','))));
-        resultsNow = initData(n); // Reset var to collect next stacks values/errors
+        resultsNow = initoutput(n); // Reset var to collect next stacks values/errors
       }
     };
     O.onNext(next);

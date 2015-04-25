@@ -1,6 +1,6 @@
 import util from './util';
 
-const { dataOf } = util;
+const { observe } = util;
 
 describe('@.filter', () => {
 
@@ -9,8 +9,8 @@ describe('@.filter', () => {
   it('filters values', done => {
     const o0 = O.fromArray([1, 2, 3, 4]);
     const o = o0.filter(isNotTwo);
-    dataOf(o0, o, data => {
-      expect(data).toBe(
+    observe(o0, o, output => {
+      expect(output).toBe(
         '[ 1   2 3   4   ]' +
         '[   1     3   4   ]');
       done();

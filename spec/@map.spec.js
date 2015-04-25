@@ -1,6 +1,6 @@
 import util from './util';
 
-const { dataOf } = util;
+const { observe } = util;
 
 describe('@.map', () => {
 
@@ -14,8 +14,8 @@ describe('@.map', () => {
   it('maps values', done => {
     const o0 = O.fromArray([1, 2, 3, 4]);
     const o = o0.map(square);
-    dataOf(o0, o, data => {
-      expect(data).toBe(
+    observe(o0, o, output => {
+      expect(output).toBe(
         '[ 1   2   3        4    ]' +
         '[   1   4   !ooops   16   ]');
       done();

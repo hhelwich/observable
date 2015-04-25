@@ -1,7 +1,7 @@
 import util from './util';
 import customMatchers from './matcher';
 
-const { async, counter, dataOf } = util;
+const { async, counter, observe } = util;
 
 describe('O', () => {
 
@@ -16,8 +16,8 @@ describe('O', () => {
       });
     });
     expect(obs).toBeInstanceOf(O);
-    dataOf(obs, data => {
-      expect(data).toBe('[ 42 ]');
+    observe(obs, output => {
+      expect(output).toBe('[ 42 ]');
       done();
     });
   });
@@ -29,8 +29,8 @@ describe('O', () => {
       });
     });
     expect(obs).toBeInstanceOf(O);
-    dataOf(obs, data => {
-      expect(data).toBe('[ 42 ]');
+    observe(obs, output => {
+      expect(output).toBe('[ 42 ]');
       done();
     });
   });
@@ -48,8 +48,8 @@ describe('O', () => {
 
   it('can be empty', done => {
     const obs = O(() => {});
-    dataOf(obs, data => {
-      expect(data).toBe('[ ]');
+    observe(obs, output => {
+      expect(output).toBe('[ ]');
       done();
     });
   });
@@ -66,8 +66,8 @@ describe('O', () => {
         push(42);
       });
     });
-    dataOf(obs, data => {
-      expect(data).toBe('[ 11,12,42 33,77 ]');
+    observe(obs, output => {
+      expect(output).toBe('[ 11,12,42 33,77 ]');
       done();
     });
   });
@@ -83,8 +83,8 @@ describe('O', () => {
         push(42);
       });
     });
-    dataOf(obs, data => {
-      expect(data).toBe('[ 77,42 11,!foo ]');
+    observe(obs, output => {
+      expect(output).toBe('[ 77,42 11,!foo ]');
       done();
     });
   });
