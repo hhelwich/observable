@@ -36,7 +36,7 @@ gulp.task('dev', () => {
     gulp.watch(['src/**/*.js'], ['update-src']);
     gulp.watch(['src/.jscsrc', 'src/.jshintrc'], { dot: true }, ['lint-src']);
     gulp.watch(['spec/**/*.js'], ['update-spec']);
-    gulp.watch(['spec/index.html'], ['update-runner']);
+    gulp.watch(['spec/runner/**/*'], ['update-runner']);
     gulp.watch(['spec/.jscsrc', 'spec/.jshintrc'], { dot: true }, ['lint-spec']);
     gulp.watch(['tasks/.jscsrc', 'tasks/.jshintrc'], { dot: true }, ['lint-tasks']);
     gulp.watch(['tasks/**/*'], ['test']);

@@ -7,7 +7,7 @@ import mkdirp from 'mkdirp';
 import browserSync from 'browser-sync';
 
 gulp.task('copy-runner', () => {
-  return gulp.src('spec/index.html').pipe(gulp.dest('build'));
+  return gulp.src('spec/runner/**/*').pipe(gulp.dest('build'));
 });
 
 gulp.task('copy-jasmine', () => {
