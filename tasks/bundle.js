@@ -53,7 +53,7 @@ gulp.task('bundle-src', () => {
     .pipe(sourcemaps.init())
     .pipe(babel({ blacklist: ['spec.functionName']}))
     .pipe(concat('observable.js'))
-    .pipe(wrap('/*jshint ignore:start*/ /*jscs:disable*/ (function(global){<%= contents %>' +
+    .pipe(wrap('/*jscs:disable*/ (function(global){<%= contents %>' +
       'if (typeof RELEASE === \'undefined\' || !RELEASE) {' +
       `global._private={${privateExports}};}global.O=Observable;}(this));`))
     .pipe(sourcemaps.write())
