@@ -53,7 +53,8 @@ gulp.task('bundle-src', () => {
     .pipe(sourcemaps.init())
     .pipe(babel({ blacklist: ['spec.functionName']}))
     .pipe(concat('observable.js'))
-    .pipe(wrap(`(function(global){<%= contents %>global._private={${privateExports}};global.O=Observable;}(this));`))
+    .pipe(wrap('(function(global){<%= contents %>if (typeof RELEASE === \'undefined\' || !RELEASE) {' +
+      `global._private={${privateExports}};}global.O=Observable;}(this));`))
     .pipe(sourcemaps.write())
     .pipe(gulp.dest('build'));
 });
