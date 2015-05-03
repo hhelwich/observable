@@ -86,7 +86,7 @@ const obsListeners = {};
 // Returns a function to deregister the listener.
 // :: (Observable, (T ->), (* ->), (->)) ->
 const addListener = (obs, onValue, onError, onEnd) => {
-  let deregister;
+  var deregister;
   // Get listeners of observable
   let listeners = obsListeners[obs._id];
   if (listeners == null) {
@@ -308,7 +308,7 @@ Observable.onNext = callback => {
 Observable.fromArray = array => {
   array = array.slice(0); // Shallow copy array
   return Observable((push, next) => {
-    let pushNext;
+    var pushNext;
     const pushIfAvailable = () => {
       if (array.length > 0) {
         next(pushNext);
