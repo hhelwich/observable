@@ -1,17 +1,17 @@
 // Binds a function to a context
 // :: (->, {}) -> ->
-let bind = (fn, context) => {
+const bind = (fn, context) => {
   return function() {
     return fn.apply(context, arguments);
   };
 };
 
 // Aliases
-let _console = console;
-let log = bind(_console.log, _console);
-let error = bind(_console.error, _console);
+const _console = console;
+const log = bind(_console.log, _console);
+const error = bind(_console.error, _console);
 
-let { slice, push } = Array.prototype;
+const { slice, push } = Array.prototype;
 
 // Returns true if the given value is of type boolean and is true.
 // * -> boolean
@@ -60,12 +60,8 @@ const appendArray = (a1, a2) => {
 
 // Returns the number of own key/value pairs in the given object.
 // :: {} -> number
-let objLength = (obj) => {
-  return (Object.keys(obj)).length;
-};
+const objLength = obj => Object.keys(obj).length;
 
 // Returns true if the given object has no own key/value pair.
 // :: {} -> boolean
-let isEmpty = (obj) => {
-  return objLength(obj) === 0;
-};
+const isEmpty = obj => objLength(obj) === 0;

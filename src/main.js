@@ -53,13 +53,11 @@ const waitForObs = (fn, args, n) => {
 
 // Return a function which calls the given function if its last `n` arguments are instances of Obs, otherwise return a
 // function which waits for more arguments to be appended on the given arguments.
-let curryObs = (n, fn) => {
-  return waitForObs(fn, [], n);
-};
+const curryObs = (n, fn) => waitForObs(fn, [], n);
 
 // Call the given function if enough arguments are given, otherwise return function which waits for more arguments.
 // :: (->, [*]) -> *
-let waitForArgs = (fn, args) => {
+const waitForArgs = (fn, args) => {
   if (args.length >= fn.length) {
     return fn.apply(null, args);
   } else {
@@ -70,26 +68,24 @@ let waitForArgs = (fn, args) => {
 };
 
 // Function currying
-let curry = (fn) => {
-  return function() {
-    return waitForArgs(fn, toArray(arguments));
-  };
+const curry = fn => function() {
+  return waitForArgs(fn, toArray(arguments));
 };
 
 // Unique id generator function for listeners. It would be possible to have a listener id generator per observable but
 // then it would be needed to store the generator in the observable itself (for GC) so we make a global generator here
 // instead.
 // :: -> number
-let listenerId = createSequence();
+const listenerId = createSequence();
 
 // All active listeners to all active observables are stored here.
 // :: string -> string -> { onValue: ->, onError: ->, onEnd: -> }
-let obsListeners = {};
+const obsListeners = {};
 
 // Add a new listener function for an existing observable.
 // Returns a function to deregister the listener.
 // :: (Observable, (T ->), (* ->), (->)) ->
-let addListener = (obs, onValue, onError, onEnd) => {
+const addListener = (obs, onValue, onError, onEnd) => {
   let deregister;
   // Get listeners of observable
   let listeners = obsListeners[obs._id];
@@ -100,7 +96,7 @@ let addListener = (obs, onValue, onError, onEnd) => {
     }
   }
   // Add new listener
-  let lid = listenerId();
+  const lid = listenerId();
   listeners[lid] = {
     onValue: toFunc(onValue),
     onError: toFunc(onError),
@@ -119,11 +115,11 @@ let addListener = (obs, onValue, onError, onEnd) => {
   };
 };
 
-let removeListener = (obs, lid) => {};
+const removeListener = (obs, lid) => {};
 
 // Iterate key/value pairs of an object
 // :: ((string -> *), ((string, *) ->)) ->
-let iterate = (obj, callback) => {
+const iterate = (obj, callback) => {
   for (let key in obj) {
     if (obj.hasOwnProperty(key)) {
       callback(key, obj[key]);
@@ -133,8 +129,8 @@ let iterate = (obj, callback) => {
 
 // Emit the given value on the observable with the given id.
 // :: string -> * ->
-let trigger = curry((oid, value) => {
-  if (value !== void 0) {
+const trigger = curry((oid, value) => {
+  if (value !== undefined) {
     iterate(obsListeners[oid], (_, listener) => {
       listener.onValue(value);
     });
@@ -143,7 +139,7 @@ let trigger = curry((oid, value) => {
 
 // Emit the given error object on the observable with the given id.
 // :: string -> * ->
-let triggerError = curry((oid, error) => {
+const triggerError = curry((oid, error) => {
   iterate(obsListeners[oid], (_, listener) => {
     listener.onError(error);
   });
@@ -151,26 +147,24 @@ let triggerError = curry((oid, error) => {
 
 // End the observable with the given id.
 // :: string -> ->
-let triggerEnd = (oid) => {
-  return () => {
-    iterate(obsListeners[oid], (_, listener) => {
-      listener.onEnd();
-    });
-  };
+const triggerEnd = oid => () => {
+  iterate(obsListeners[oid], (_, listener) => {
+    listener.onEnd();
+  });
 };
 
 // Calls the given function with a push function to emit values on the given observable.
 // (Observable, (->)) -> Observable
-let pushValues = (obs, create) => {
+const pushValues = (obs, create) => {
   let register = null;
-  let id = obs._id;
+  const id = obs._id;
   let msgCount = 0; // How much messages are in the queue for this observable
-  let checkEnd = () => {
+  const checkEnd = () => {
     if (register == null && msgCount === 0) { // No more messages in queue => end observable
       async(triggerEnd(id));
     }
   };
-  let next = (fn) => {
+  const next = fn => {
     async(() => {
       try {
         fn.call(obs);
@@ -190,14 +184,14 @@ let pushValues = (obs, create) => {
   return obs;
 };
 
-let globals = {
+const globals = {
   // ((A -> B), Observable<A>) -> Observable<B>
   map: curryObs(1, (obs, fn, seed) => {
-    let ob0 = new Obs();
-    let id = ob0._id;
-    let _trigger = trigger(id);
-    let _triggerError = triggerError(id);
-    let deregister = addListener(obs, (value) => {
+    const ob0 = new Obs();
+    const id = ob0._id;
+    const _trigger = trigger(id);
+    const _triggerError = triggerError(id);
+    const deregister = addListener(obs, value => {
       async(() => {
         try {
           _trigger(fn(value));
@@ -205,7 +199,7 @@ let globals = {
           _triggerError(e);
         }
       });
-    }, (e) => {
+    }, e => {
       async(() => {
         _triggerError(e);
       });
@@ -216,12 +210,12 @@ let globals = {
     return ob0;
   }),
   take: (count, obs) => {
-    let ob = new Obs();
-    let id = ob._id;
-    let _trigger = trigger(id);
-    let _triggerError = triggerError(id);
+    const ob = new Obs();
+    const id = ob._id;
+    const _trigger = trigger(id);
+    const _triggerError = triggerError(id);
     let i = 0; // Number of taken values
-    let deregister = addListener(obs, (value) => {
+    const deregister = addListener(obs, value => {
       if (i < count) {
         async(() => {
           _trigger(value);
@@ -232,7 +226,7 @@ let globals = {
         deregister();
         async(triggerEnd(id));
       }
-    }, (e) => {
+    }, e => {
       async(() => {
         _triggerError(e);
       });
@@ -243,13 +237,13 @@ let globals = {
     return ob;
   },
   filter: curryObs(1, (obs, predicate) => {
-    let ob0 = new Obs();
-    let id = ob0._id;
-    let _trigger = trigger(id);
-    let _triggerError = triggerError(id);
-    let len = predicate.length;
-    let elements = [];
-    let deregister = addListener(obs, (value) => {
+    const ob0 = new Obs();
+    const id = ob0._id;
+    const _trigger = trigger(id);
+    const _triggerError = triggerError(id);
+    const len = predicate.length;
+    const elements = [];
+    const deregister = addListener(obs, value => {
       try {
         if (isTrue(predicate(value))) {
           async(() => {
@@ -261,7 +255,7 @@ let globals = {
           _triggerError(e);
         });
       }
-    }, (e) => {
+    }, e => {
       async(() => {
         _triggerError(e);
       });
@@ -274,50 +268,48 @@ let globals = {
 };
 
 // Prototype for all Observables.
-let obsProto = Obs.prototype = {
-  log: function(prefix) {
-    addListener(this, (value) => {
+const obsProto = Obs.prototype = {
+  log(prefix) {
+    addListener(this, value => {
       log(prefix, value);
-    }, (e) => {
+    }, e => {
       error(prefix, e);
     }, () => {
       log(prefix, '<end>');
     });
   },
-  forEach: function(onValue, onError, onEnd) {
+  forEach(onValue, onError, onEnd) {
     return addListener(this, onValue, onError, onEnd);
   },
-  map: function(fn) {
+  map(fn) {
     return globals.map(fn, this);
   },
-  filter: function(predicate) {
+  filter(predicate) {
     return globals.filter(predicate, this);
   },
-  take: function(count) {
+  take(count) {
     return globals.take(count, this);
   }
 };
 
 // Constructor function for a new Observable. It should be used without `new`.
-let Observable = (creator) => {
-  return pushValues(new Obs(), creator);
-};
+const Observable = creator => pushValues(new Obs(), creator);
 
 Observable.prototype = obsProto; // For instanceof
 
 // Will be called at the start of each queue message created by this type
 // :: (->) ->
-Observable.onNext = (callback) => {
+Observable.onNext = callback => {
   onNext = callback;
 };
 
 // Returns an observable which emits all elements of the given array.
 // :: [*] -> Observable
-Observable.fromArray = (array) => {
+Observable.fromArray = array => {
   array = array.slice(0); // Shallow copy array
   return Observable((push, next) => {
     let pushNext;
-    let pushIfAvailable = () => {
+    const pushIfAvailable = () => {
       if (array.length > 0) {
         next(pushNext);
       }
@@ -330,9 +322,7 @@ Observable.fromArray = (array) => {
   });
 };
 
-Observable.once = (value) => {
-  return Observable.fromArray([value]);
-};
+Observable.once = value => Observable.fromArray([value]);
 
 // Copy all global functions to the exported object.
 iterate(globals, (name, fn) => {
