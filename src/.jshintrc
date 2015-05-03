@@ -10,8 +10,8 @@
   "nonbsp": true,
   "nonew": true,
   "singleGroups": true,
-  "undef": true,
-  "unused": true,
+  "undef": false,
+  "unused": false,
   "globals": {
     "console": false,
     "require": false,
