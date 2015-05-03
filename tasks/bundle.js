@@ -2,9 +2,11 @@ import gulp from 'gulp';
 import fs from 'fs';
 import browserify from 'browserify';
 import babelify from 'babelify';
-import babel from 'gulp-babel';
 import mkdirp from 'mkdirp';
-import browserSync from 'browser-sync';
+import concat from 'gulp-concat';
+import sourcemaps from 'gulp-sourcemaps';
+import babel from 'gulp-babel';
+import wrap from 'gulp-wrap';
 
 gulp.task('copy-runner', () => {
   return gulp.src('spec/runner/**/*').pipe(gulp.dest('build'));
@@ -38,6 +40,22 @@ let createBundleTask = (dir) => {
   });
 };
 
-['src', 'spec'].forEach(createBundleTask);
+['spec'].forEach(createBundleTask);
+
+const privateExports = [
+  'toArray', 'copyArray', 'appendArray', 'compose', 'curry', 'curryObs', 'isFunc', 'isObservable'
+].map(s => `${s}:${s}`).join(',');
+
+gulp.task('bundle-src', () => {
+  return gulp.src([
+    'util', 'main'
+  ].map(name => `src/${name}.js`))
+    .pipe(sourcemaps.init())
+    .pipe(babel())
+    .pipe(concat('observable.js'))
+    .pipe(wrap(`(function(global){<%= contents %>global._private={${privateExports}};global.O=Observable;}(this));`))
+    .pipe(sourcemaps.write())
+    .pipe(gulp.dest('build'));
+});
 
 gulp.task('bundle', ['copy-runner', 'copy-jasmine', 'copy-ramda', 'bundle-src', 'bundle-spec']);
