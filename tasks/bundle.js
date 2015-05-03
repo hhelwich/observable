@@ -51,7 +51,7 @@ gulp.task('bundle-src', () => {
     'util', 'main'
   ].map(name => `src/${name}.js`))
     .pipe(sourcemaps.init())
-    .pipe(babel())
+    .pipe(babel({ blacklist: ['spec.functionName']}))
     .pipe(concat('observable.js'))
     .pipe(wrap(`(function(global){<%= contents %>global._private={${privateExports}};global.O=Observable;}(this));`))
     .pipe(sourcemaps.write())
