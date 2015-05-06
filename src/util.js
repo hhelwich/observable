@@ -65,3 +65,13 @@ const objLength = obj => Object.keys(obj).length;
 // Returns true if the given object has no own key/value pair.
 // :: {} -> boolean
 const isEmpty = obj => objLength(obj) === 0;
+
+// Iterate key/value pairs of an object
+// :: ((string -> *), ((string, *) ->)) ->
+const iterate = (obj, callback) => {
+  for (let key in obj) {
+    if (obj.hasOwnProperty(key)) {
+      callback(key, obj[key]);
+    }
+  }
+};

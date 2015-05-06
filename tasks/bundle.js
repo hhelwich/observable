@@ -48,7 +48,7 @@ const privateExports = [
 
 gulp.task('bundle-src', () => {
   return gulp.src([
-    'util', 'main'
+    'util', 'fn', 'core', 'ops', 'main'
   ].map(name => `src/${name}.js`))
     .pipe(sourcemaps.init())
     .pipe(babel({ blacklist: ['spec.functionName']}))
