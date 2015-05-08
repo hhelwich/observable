@@ -12,7 +12,10 @@ describe('isOError (white box test)', () => {
 
   it('returns true for wrapped functional errors (anything besides undefined)', () => {
     [null, 0, 1, '', 'foo', '0', [], {}, () => {}].forEach(value => {
-      const error = OError(value);
+      let error = OError(value);
+      expect(isOError(error)).toBe(true);
+      // Works also if created with ‘new’
+      error = new OError(value);
       expect(isOError(error)).toBe(true);
     });
   });
@@ -29,7 +32,10 @@ describe('unwrapOError (white box test)', () => {
 
   it('extracts the value of a functional error', () => {
     [null, 0, 1, '', 'foo', '0', [], {}, () => {}].forEach(value => {
-      const error = OError(value);
+      let error = OError(value);
+      expect(unwrapOError(error)).toBe(value);
+      // Works also if created with ‘new’
+      error = new OError(value);
       expect(unwrapOError(error)).toBe(value);
     });
   });
