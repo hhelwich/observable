@@ -1,7 +1,12 @@
 // All uncought errors will be collected here. Newer errors have higher indices.
 var _errors = [];
 
-global.errors = {
+// Register global handler to collect uncought errors.
+window.onerror = (msg, url, line, col, error) => {
+  _errors.push(error);
+};
+
+export default {
   // Clear the collected global error list.
   clear() {
     _errors = [];
@@ -10,9 +15,4 @@ global.errors = {
   get() {
     return _errors.slice();
   }
-};
-
-// Register global handler to collect uncought errors.
-window.onerror = (msg, url, line, col, error) => {
-  _errors.push(error);
 };
