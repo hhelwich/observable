@@ -21,15 +21,15 @@ const removeUndefined = array => {
 
 // Removes all empty observations and also undefined values from observations.
 // cleanResult :: {}<any[]> -> {}<any[]>
-const cleanResult = observed => {
-  return Object.keys(observed).reduce((cleanedObserved, name) => {
+const cleanResult = observed => Object.keys(observed).reduce(
+  (cleanedObserved, name) => {
     const observation = observed[name];
     if (hasContent(observation)) {
       cleanedObserved[name] = removeUndefined(observation);
     }
     return cleanedObserved;
-  }, {});
-};
+  }, {}
+);
 
 // Create on value handler function for an Observable with the given name. Add each value to the value event list for
 // this Observable and add `undefined` to the value event lists of all other Observables.
