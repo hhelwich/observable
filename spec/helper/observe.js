@@ -2,14 +2,10 @@ import errors from './errors';
 
 // Returns `true` if the given array is not empty and at least one element is not `undefined`.
 // hasContent :: any[] -> boolean
-const hasContent = array => {
-  for (let e of array) {
-    if (e !== undefined) {
-      return true;
-    }
-  }
-  return false;
-};
+const hasContent = array => array.reduce(
+  (hasContent, value) => hasContent || value !== undefined,
+  false
+);
 
 // Remove all array indices for `undefined` values (besides the last element).
 // removeUndefined :: any[] -> any[]
