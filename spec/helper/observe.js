@@ -2,10 +2,7 @@ import errors from './errors';
 
 // Returns `true` if the given array is not empty and at least one element is not `undefined`.
 // hasContent :: any[] -> boolean
-const hasContent = array => array.reduce(
-  (hasContent, value) => hasContent || value !== undefined,
-  false
-);
+const hasContent = R.reduce((hasContent, value) => hasContent || value !== undefined, false);
 
 // Remove all array indices for `undefined` values (besides the last element).
 // removeUndefined :: any[] -> any[]
@@ -21,15 +18,7 @@ const removeUndefined = array => {
 
 // Removes all empty observations and also undefined values from observations.
 // removeEmptyAndUndefined :: {}<any[]> -> {}<any[]>
-const removeEmptyAndUndefined = observed => Object.keys(observed).reduce(
-  (cleanedObserved, name) => {
-    const observation = observed[name];
-    if (hasContent(observation)) {
-      cleanedObserved[name] = removeUndefined(observation);
-    }
-    return cleanedObserved;
-  }, {}
-);
+const removeEmptyAndUndefined = R.compose(R.mapObj(removeUndefined), R.pickBy(hasContent));
 
 // Create on value handler function for an Observable with the given name. Add each value to the value event list for
 // this Observable and add `undefined` to the value event lists of all other Observables.
