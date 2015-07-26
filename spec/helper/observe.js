@@ -20,8 +20,8 @@ const removeUndefined = array => {
 };
 
 // Removes all empty observations and also undefined values from observations.
-// cleanResult :: {}<any[]> -> {}<any[]>
-const cleanResult = observed => Object.keys(observed).reduce(
+// removeEmptyAndUndefined :: {}<any[]> -> {}<any[]>
+const removeEmptyAndUndefined = observed => Object.keys(observed).reduce(
   (cleanedObserved, name) => {
     const observation = observed[name];
     if (hasContent(observation)) {
@@ -57,6 +57,7 @@ global.observe = (observables, callback) => {
   // Collect all value events for all active Observables here.
   const observing = {}; // {}<any[]>
   observing[errorsName] = [];
+  //TODO: Unregister error listener when all observables end
   errors.onValue(addValue(observing, errorsName));
   // Iterate all observables
   Object.keys(observables).forEach(name => {
@@ -77,7 +78,7 @@ global.observe = (observables, callback) => {
         // If all observables are done
         if (Object.keys(observing).length === 1) {
           observed[errorsName] = observing[errorsName];
-          callback(cleanResult(observed));
+          callback(removeEmptyAndUndefined(observed));
           callback = null; // Make sure callback is only called once
         } else {
           Object.keys(observing).forEach(oname => {
