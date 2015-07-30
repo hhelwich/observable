@@ -1,4 +1,5 @@
 import errors from './errors';
+import './asyncMock';
 
 // Returns `true` if the given array is not empty and at least one element is not `undefined`.
 // hasContent :: any[] -> boolean
@@ -25,7 +26,9 @@ const removeEmptyAndUndefined = R.compose(R.mapObj(removeUndefined), R.pickBy(ha
 // Also assure that the observed value is never undefined.
 // addValue :: {}<any[]> -> string -> any -> void
 const addValue = (observing, name) => value => {
-  expect(value).not.toBe(undefined);
+  if (value === undefined) {
+    throw Error('Test Error: Observable must not emit undefined value');
+  }
   Object.keys(observing).forEach(oname => {
     observing[oname].push(oname === name ? value : undefined);
   });
