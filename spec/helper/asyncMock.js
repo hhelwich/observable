@@ -46,10 +46,24 @@ const addFunction = (fn, time) => {
   fnsAtTime.push(fn);
 };
 
-// Mock the `async` function to verify timing in tests.
-_setAsync(async => (fn, time = 0) => {
+// The original async function used in the library.
+// async :: (any -> any) -> number -> void
+let async;
+
+// The mock async function which records the intervals for testing and also sets the real interval to `0`.
+// asyncMock :: (any -> any) -> number -> void
+const asyncMock = (fn, time = 0) => {
   addFunction(fn, time);
   async(handleNextTimeout, 0);
+};
+
+// Put the mock function in a global variable so it can also be used in tests.
+global._setTimeout = asyncMock;
+
+// Get the original async function and replace it with the mock async function.
+_setAsync(_async => {
+  async = _async;
+  return asyncMock;
 });
 
 export default {
