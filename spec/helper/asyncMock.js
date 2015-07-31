@@ -46,3 +46,9 @@ _setAsync(async => (fn, time = 0) => {
   addFunction(fn, time);
   async(handleNextTimeout, 0);
 });
+
+export default {
+  getTestTime() {
+    return currentTime;
+  }
+}

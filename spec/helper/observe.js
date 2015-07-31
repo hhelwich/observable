@@ -1,5 +1,11 @@
 import errors from './errors';
-import './asyncMock';
+import asyncMock from './asyncMock';
+
+// The name of the global error stream in the test results.
+const errorsName = 'errors';
+
+// The name of the time in the test results.
+const timesName = 'time';
 
 // Returns `true` if the given array is not empty and at least one element is not `undefined`.
 // hasContent :: any[] -> boolean
@@ -9,13 +15,29 @@ const hasContent = R.reduce((hasContent, value) => hasContent || value !== undef
 // removeUndefined :: any[] -> any[]
 const removeUndefined = array => {
   const result = [];
+  result.length = array.length;
   array.forEach((value, index) => {
-    if (value !== undefined || index === array.length - 1) {
+    if (value !== undefined) {
       result[index] = value;
     }
   });
   return result;
 };
+
+// Replace successive equal numbers by `undefined`.
+// removeTimeDups :: number[] -> number|undefined[]
+const removeTimeDups = times => R.reduce((acc, time) => {
+  let newTime;
+  if (time !== acc.time) {
+    newTime = acc.time = time;
+  }
+  acc.times.push(newTime);
+  return acc;
+}, { times: [], time: 0 }, times).times;
+
+// Subtract a number from all numbers in a list.
+// subtract :: number -> number[] -> number[]
+const subtract = dec => R.map(t => t - dec);
 
 // Removes all empty observations and also undefined values from observations.
 // removeEmptyAndUndefined :: {}<any[]> -> {}<any[]>
@@ -30,25 +52,21 @@ const addValue = (observing, name) => value => {
     throw Error('Test Error: Observable must not emit undefined value');
   }
   Object.keys(observing).forEach(oname => {
-    observing[oname].push(oname === name ? value : undefined);
+    observing[oname].push(oname === name ? value : oname === timesName ? asyncMock.getTestTime() : undefined);
   });
 };
-
-// Can be used to set trailing undefined value in observable test results.
-global.undef = undefined;
-
-// The name of the global error stream in the test results.
-const errorsName = 'errors';
 
 // Collects all events emitted by the given observables until all observables are ended. Calls the given callback
 // with the result.
 // observe :: {}<Observable<any>> -> ({}<any[]> -> void) -> void
 global.observe = (observables, callback) => {
   // All value events for ended Observables.
-  const observed = {}; // {}<any[]>
+  let observed = {}; // {}<any[]>
   // Collect all value events for all active Observables here.
   const observing = {}; // {}<any[]>
+  const startTime = asyncMock.getTestTime(); // number
   observing[errorsName] = [];
+  observing[timesName] = [];
   //TODO: Unregister error listener when all observables end
   errors.onValue(addValue(observing, errorsName));
   // Iterate all observables
@@ -67,13 +85,16 @@ global.observe = (observables, callback) => {
         // Move key/value
         observed[name] = observing[name];
         delete observing[name];
+        observing[timesName].push(asyncMock.getTestTime());
         // If all observables are done
-        if (Object.keys(observing).length === 1) {
+        if (Object.keys(observing).length === 2) {
           observed[errorsName] = observing[errorsName];
-          callback(removeEmptyAndUndefined(observed));
+          observed[timesName] = removeTimeDups(subtract(startTime)(observing[timesName]));
+          observed = removeEmptyAndUndefined(observed);
+          callback(observed);
           callback = null; // Make sure callback is only called once
         } else {
-          Object.keys(observing).forEach(oname => {
+          Object.keys(observing).filter(oname => oname !== timesName).forEach(oname => {
             observing[oname].push(undefined);
           });
         }
