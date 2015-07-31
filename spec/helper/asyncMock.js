@@ -2,6 +2,10 @@
 // currentTime :: number
 let currentTime = 0;
 
+// Count the JavaScript stacks created by the library.
+// stackCount :: number
+let stackCount = 0;
+
 // Functions to call asynchronously later at the absolute time stored in the keys.
 // fns :: {}<(any -> any)[]>
 const fns = {};
@@ -24,6 +28,7 @@ const getNextTimeStr = R.compose(R.head, R.sort((a, b) => (+a) - (+b)), R.keys);
 // Call the function with the lowest time.
 // handleNextTimeout :: void -> void
 const handleNextTimeout = () => {
+  stackCount += 1;
   const nextTimeStr = getNextTimeStr(fns);
   const nextFn = removeFn(nextTimeStr);
   currentTime = +nextTimeStr;
@@ -48,7 +53,10 @@ _setAsync(async => (fn, time = 0) => {
 });
 
 export default {
-  getTestTime() {
+  getTime() {
     return currentTime;
+  },
+  getStackCount() {
+    return stackCount;
   }
-}
+};
