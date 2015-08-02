@@ -109,6 +109,7 @@ global.observe = (observables, callback) => {
         observing[timesName].push(asyncMock.getTime());
         // If all observables are done
         if (Object.keys(observing).length === 2) {
+          //TODO Remove columns for removed observables
           observed[errorsName] = observing[errorsName];
           observed[timesName] = removeTimeDups(subtract(startTime)(observing[timesName]));
           observed = removeEmptyAndUndefined(observed);
