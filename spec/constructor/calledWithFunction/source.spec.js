@@ -1,15 +1,17 @@
 export default () => {
 
-  describe('creates a source Observable that', () => {
+  describe('can create a source Observable that', () => {
+
+    const creatorEmpty = (_, end) => { end(); };
 
     it('can be type checked with instanceof', () => {
-      expect(O(() => {})).toBeInstanceOf(O);
+      expect(O(creatorEmpty)).toBeInstanceOf(O);
       // Also works with ‘new’
-      expect(new O(() => {})).toBeInstanceOf(O);
+      expect(new O(creatorEmpty)).toBeInstanceOf(O);
     });
 
     it('has no output if end callback is called directly', done => {
-      const o = O((_, end) => { end(); });
+      const o = O(creatorEmpty);
       observe({ o }, observed => {
         expect(observed).toEqual({});
         done();
@@ -84,16 +86,6 @@ export default () => {
         });
         done();
       });
-    });
-
-    it('lets errors pass through', () => {
-      expect(() => {
-        O((push, end) => {
-          push(42);
-          _setTimeout(end, 0);
-          throw 'fooo';
-        });
-      }).toThrow('fooo');
     });
 
   });

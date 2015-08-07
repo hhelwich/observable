@@ -1,6 +1,6 @@
 export default () => {
 
-  describe('creates a transmitting Observable that', () => {
+  describe('can create a transmitting Observable that', () => {
 
     let source = null;
 
